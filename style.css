@@ -1,0 +1,138 @@
+body 
+{
+    background: url(./pictures/hard_work_background_2.jpg);
+    background-size: cover;
+    margin: auto;
+}
+
+.header h1
+{
+    font-family: 'Cabin Sketch', cursive;
+    color: #ff6227;
+    font-size: 6em;
+    font-weight: 700;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.span_box
+{
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    z-index: 1;
+    background: #317ac4;
+    border-radius: 100%;
+    width: 150px;
+    padding: 20px;
+    text-align: center;
+    transform: rotate(-30deg);
+}
+
+span.do_little
+{
+  color: white;
+    font-size: 1em;
+    font-family: 'Julius Sans One', sans-serif;
+}
+
+.clear
+{
+    clear: both;
+}
+
+.box_add_to_do form input[type=text]
+{
+    width: 70%;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1.2em;
+    font-weight: 700;
+    background: #aad4ff;
+    border: none;
+    padding: 10px;
+}
+
+.box_add_to_do form input[type=submit]
+{
+    background: black;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1.5em;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+}
+
+.wrapper_lists
+{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+}
+
+.box_existing_to_do 
+{
+   background-color: rgba(5, 5, 5, 0.57);
+   flex-basis: 45%;
+   margin-top: 30px;
+   padding: 50px;
+   box-sizing: border-box;
+}
+
+.box_add_to_do
+{
+    flex-basis: 45%;
+    text-align: center;
+    background-color: rgba(5, 5, 5, 0.57);
+    margin-top: 30px;
+    margin: auto;
+    text-align: center;
+    padding: 50px;
+    box-sizing: border-box;
+    
+}
+
+.box_add_to_do h1,
+.box_add_to_do h2
+{
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 1.5em;
+}
+
+footer nav
+{
+    display: flex;
+    justify-content: space-around;
+    background: black;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+footer nav li
+{
+    flex-basis: 50%;
+    margin: auto;
+    display: inline-block;
+    text-align: center;
+    list-style: none;
+}
+
+li a
+{
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 1.2em;
+}
+
+li a:hover,
+li a:active
+{
+    color: #ff6227;
+}
+
+
+
