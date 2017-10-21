@@ -52,7 +52,7 @@ span.do_little
     padding: 10px;
 }
 
-.box_add_to_do form input[type=submit]
+.wrapper_lists form input[type=submit]
 {
     background: black;
     color: white;
@@ -75,11 +75,17 @@ span.do_little
 
 .box_existing_to_do 
 {
-   background-color: rgba(5, 5, 5, 0.57);
-   flex-basis: 45%;
-   margin-top: 30px;
-   padding: 50px;
-   box-sizing: border-box;
+    flex-basis: 45%;
+    text-align: center;
+    background-color: rgba(5, 5, 5, 0.57);
+    margin-top: 30px;
+    margin: auto;
+    text-align: center;
+    padding: 50px;
+    box-sizing: border-box;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 1.5em;
 }
 
 .box_add_to_do
