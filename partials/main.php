@@ -28,43 +28,63 @@
 
         <h3>YOUR TO DO LIST</h3>
                    
-                    <?php
-
-            require "partials/fetch_database.php";
+<?php
             
-            $i = 0;
+            $clear_all = false;
+            
                 foreach ($to_do_list as $to_do)
                 {
-                    $i++;
+                    $id = $to_do["id"];
                     
             echo $to_do["title"] . 
             ' (' . $to_do["createdBy"] . ') 
                 
         <form id="complete" method="POST">
         
-        <input type="submit" name="completed_' . $to_do["id"] . '" value="DONE">
-        
+        <input type="submit" name="completed_' . $id . '" value="DONE">
         </form>
-        <br/>'
-        ;}
+        <br/>';
+                    if (isset($_POST["completed_$id"])){
+                completed_to_do($id);
+                    }
+        }
+            ?>
             
-            if ($i > 0){
-            require "partials/clear_database.php";
+             
+            <?php
             
+            if (count($to_do_list) > 0){
+           
+            $completed_to_do = fetch_completed_list($to_do_list);
+                
+               // require "partials/fetch_completed_list.php";
+           // $completed_list = fetch_completed_list($completed_to_do);
+                
+                if (count($completed_to_do > 0))
+                {
+            
+            foreach ($completed_to_do as $completed)
+            {
+                echo '<h4>COMPLETED TO DO\'S</h4>
+                <br/>' 
+                    . $completed ["title"] . '<br/>';
+            }
+                }
+           
             echo '<form id="clear_list" method="POST">
-            <input type="hidden" name="clear" value="1">
             <input type="submit" name="clear" value="CLEAR ALL">
             </form>';
+                
+                if (isset($_POST["clear"]))
+                {
+                    $clear_all = true;
+                    clear_database($clear_all);
+                    
+                }
+                
             }
         
             ?>
-            
-
-            
-            <?php
-            
-            ?>
-            
             
             </div>
 

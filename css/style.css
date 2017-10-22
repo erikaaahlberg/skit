@@ -45,7 +45,8 @@ span.do_little
     margin: auto;
 }
 
-.box_add_to_do
+.box_add_to_do,
+.box_existing_to_do
 {
     flex-basis: 45%;
     text-align: center;
@@ -54,11 +55,16 @@ span.do_little
     text-align: center;
     padding: 50px;
     box-sizing: border-box;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 1.2em;
     
 }
 
-.box_add_to_do h1,
-.box_add_to_do h2
+.box_add_to_do h1, 
+.box_add_to_do h2,
+.box_existing_to_do h3, 
+.box_existing_to_do h4
 {
     font-family: 'Roboto Condensed', sans-serif;
     color: white;
@@ -89,26 +95,6 @@ form#add input[type=submit]
     width: 100px;
     margin: auto;
     margin-top: 20px;
-}
-
-
-.box_existing_to_do 
-{
-    flex-basis: 45%;
-    text-align: center;
-    background-color: rgba(5, 5, 5, 0.57);
-    margin: auto;
-    text-align: left;
-    padding: 50px;
-    box-sizing: border-box;
-    font-family: 'Roboto Condensed', sans-serif;
-    color: white;
-    font-size: 1.5em;
-}
-
-.box_existing_to_do h3
-{
-    text-align: center;
 }
 
 form#complete input[type=submit],

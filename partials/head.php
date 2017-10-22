@@ -25,13 +25,13 @@
         <div class="row">
             <div class="header col-sm-12">
                 <h1>DR. DO LITTLE</h1>
-                  <!-- <div class="span_box">
+                  <div class="span_box">
                     <span class="do_little">
                     Do little
                     to remember 
                     what to do
                     </span>
-                    </div><!--.span_box-->
+                    </div><!--.span_box
                     
             </div>
         </div>
