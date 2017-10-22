@@ -1,8 +1,9 @@
 <?php
 
-if (isset($_POST["createdBy"]) && isset($_POST["title"]))
+function insert_to_do_list ($title, $creator)
 {
-    $completed = false;
+    require "partials/database.php";
+    $completed = 0;
     
     $my_sql = $pdo->prepare(
      "INSERT INTO to_do (title, completed, createdBy) 
@@ -11,9 +12,9 @@ if (isset($_POST["createdBy"]) && isset($_POST["title"]))
 
 
     $my_sql->execute(array( 
-        ":title" => $_POST["title"],  
+        ":title" => $title,  
         ":completed" => $completed,
-        ":createdBy" => $_POST["createdBy"] )); 
+        ":createdBy" => $creator)); 
     
 }
 

@@ -37,40 +37,49 @@
                     $id = $to_do["id"];
                     
             echo $to_do["title"] . 
-            ' (' . $to_do["createdBy"] . ') 
+            ' (' . $to_do["createdBy"] . ') <br/>'
+              . var_dump($to_do["completed"]) .  
                 
-        <form id="complete" method="POST">
+        '<form id="complete" method="POST">
         <input type="hidden" name="completed_' . $id . ' value="1">
-        <input type="submit" name="completed_' . $id . '" value="DONE">
+        <input type="submit" value="DONE">
         </form>
         <br/>'; 
-                    if (isset($_POST["completed_$id"]) &&
-                       $_POST["completed_$id"] > 0){
+                    if (isset($_POST["completed_$id"]))
+                    {
                 completed_to_do($id);
                     }
         }
             ?>
             
+           
              
             <?php
             
             if (count($to_do_list) > 0){
            
-            $completed_to_do = fetch_completed_list($to_do_list);
+           $completed_to_do = fetch_completed_list($to_do_list);
                 
                 
-                if (count($completed_to_do > 0))
-                {
+               //if (count($completed_to_do > 0))
+                //{
+            
+            //$completed_to_do = check_if_completed($to_do_list);
+                
+            
+            if (count($completed_to_do > 0))
+            {
                     echo '<h4>COMPLETED TO DO\'S</h4>
                 <br/>'; 
             
-            foreach ($completed_to_do as $completed)
+            for ($i = 0; $i < count($completed_to_do); $i++)
             {
                 
-                    echo $completed ["title"] . '<br/>';
+                    echo $completed_to_do[$i]["title"] . '<br/>';
             }
                 }
            
+            //if (count($to_do_list) > 0){
             echo '<form id="clear_list" method="POST">
             <input type="submit" name="clear" value="CLEAR ALL">
             </form>';
@@ -92,48 +101,3 @@
     </div>
     <!--.wrapper_lists-->
 </main>
-
-
-
-funktion completed
-
-<?php
-
-function completed_to_do ($title_id)
-{
-    require "partials/database.php";
-    $completed = true;
-    
-$my_sql = $pdo->prepare(
-     "UPDATE to_do 
-     SET completed = $completed
-     WHERE id = $title_id"
-     );
-    
-    $my_sql->execute();
-                 
-}
-
-function fetch_completed_list ($array)
-{
-
-require "partials/database.php";
-
-$completed = $pdo->prepare(
-  "SELECT DISTINCT * FROM to_do
-  WHERE completed = 'true'"
-);
-
-$completed->execute(array(
-    ":id" => "id",
-    ":title" => "title",
-    ":completed" => "completed",
-    ":createdBy" => "createdBy"
-));
-
-$array = $completed->fetchAll(PDO::FETCH_ASSOC);
-    
-    return $array;
-}
-
-?>

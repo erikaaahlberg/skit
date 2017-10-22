@@ -82,24 +82,10 @@ form#add input[type=text]
     padding: 10px;
 }
 
+form#complete input[type=submit]
+form#clear_list input[type=submit]
 form#add input[type=submit]
-{
-    background: black;
-    color: white;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 1.2em;
-    border: none;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    width: 100px;
-    margin: auto;
-    margin-top: 20px;
-}
-
-form#complete input[type=submit],
-form#clear_list input[type=submit],
-form#add input[type=submit]
+form#remove_task input[type=submit]
 {
     background: black;
     color: white;
@@ -112,6 +98,11 @@ form#add input[type=submit]
     width: 100px;
     margin: auto;
     display: inline-block;  
+}
+
+form#remove_task input[type=submit]
+{
+    background: red;
 }
 
 form#add input[type=submit]

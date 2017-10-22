@@ -1,13 +1,13 @@
 <?php
 
-function fetch_completed_list ($array)
+function fetch_completed_list ()
 {
 
 require "partials/database.php";
 
-$completed = $pdo->prepare(
+$completed = $pdo2->prepare(
   "SELECT DISTINCT * FROM to_do
-  WHERE completed = true"
+  WHERE completed = 1"
 );
 
 $completed->execute(array(
@@ -17,7 +17,7 @@ $completed->execute(array(
     ":createdBy" => "createdBy"
 ));
 
-$array = $statement->fetchAll(PDO::FETCH_ASSOC);
+$array = $completed->fetchAll(PDO::FETCH_ASSOC);
     
     return $array;
 }

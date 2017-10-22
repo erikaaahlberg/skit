@@ -1,7 +1,10 @@
 <?php
 
+require "partials/database.php";
+
 $statement = $pdo->prepare(
-  "SELECT DISTINCT id, title, completed, createdBy FROM to_do"
+  "SELECT DISTINCT * FROM to_do
+  WHERE completed = 0"
 );
 
 $statement->execute(array(

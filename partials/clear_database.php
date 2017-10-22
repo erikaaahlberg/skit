@@ -2,13 +2,16 @@
 
 function clear_database ($boolean)
 {
-    require "partials/database.php";
+    if($boolean)
+    {
+ require "partials/database.php";
     
 $clear_database = $pdo->prepare(
-     "DELETE FROM to_do"
+     "TRUNCATE TABLE to_do"
      ); 
  
     $clear_database->execute();
+    }
 
 }
     
