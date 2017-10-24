@@ -1,10 +1,12 @@
 <?php
 
+function fetch_to_do_list ($int)
+{
 require "partials/database.php";
 
 $statement = $pdo->prepare(
-  "SELECT DISTINCT * FROM to_do
-  WHERE completed = 0"
+  "SELECT * FROM to_do
+  WHERE completed = $int"
 );
 
 $statement->execute(array(
@@ -15,6 +17,8 @@ $statement->execute(array(
 ));
 
 $to_do_list = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+    
+    return $to_do_list;
+}
 
 ?>
