@@ -1,6 +1,6 @@
 <?php
 
-function update_to_do ($completed, $title, $createdBy, $id)
+function update_to_do ($completed, $title, $createdBy, $id, $priority)
 {
     require "partials/database.php";
     
@@ -11,14 +11,16 @@ function update_to_do ($completed, $title, $createdBy, $id)
     "UPDATE to_do 
      SET completed = :completed,
      title = :title,
-     createdBy = :createdBy
+     createdBy = :createdBy,
+     priority = :priority
      WHERE id = $id"
     );
     
     $my_sql->execute(array(
         ":completed" => $completed,
         ":title"    => $title,
-        ":createdBy" => $createdBy
+        ":createdBy" => $createdBy,
+        ":priority" => $priority
     
     ));
     

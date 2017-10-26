@@ -32,6 +32,7 @@
 
             <?php
             
+
             
             //Deklarerar variabler så att jag når dem överallt
             //Den första listan som ska skrivas ut är ofärdiga to do's, därav completed = 0
@@ -41,14 +42,34 @@
             $createdBy = "";
             $id = "";
             
+            
+            require "partials/functions/fetch_to_do_list.php";
+            $to_do_list = fetch_to_do_list($completed);
+            
+            
             if (isset($_POST["createdBy"]) && isset($_POST["title"]))
             {
                 $title = $_POST["title"];
                 $createdBy = $_POST["createdBy"];
                 
-                require "partials/functions/insert_to_do_list.php";
+                require "partials/functions/check_if_dublette.php";
+                $is_dublette = check_if_dublette($to_do_list, $title);
                 
+                if ($is_dublette == false)
+                {
+                require "partials/functions/insert_to_do_list.php";
+                    
                 insert_to_do_list($title, $completed, $createdBy);
+                    
+                echo '<br/>Your task was successfully added';
+                    
+                }
+                
+                else
+                {
+                    echo '<br/>That\'ve already been added!';
+                }
+                
             }
             ?>
 
@@ -61,10 +82,18 @@
             <h3>YOUR TO DO LIST</h3>
 
                 <?php
-           
-                require "partials/functions/fetch_to_do_list.php";
-                $to_do_list = fetch_to_do_list($completed);
             
+                if (count($to_do_list > 0))
+                {
+                    echo '<h5>(Click on the task to edit)</h5>
+                    <ul>
+                    <li class="priority">Priority</li>
+                    <li class="task">TASK</li>
+                    <li class="name">NAME</li>
+                    </ul>
+                    <br/>
+                    <hr/>';
+                }
             
                 foreach ($to_do_list as $to_do)
                 {
@@ -72,19 +101,27 @@
                     $title = $to_do["title"];
                     $createdBy = $to_do["createdBy"];
                     $id = $to_do["id"];
+                    $priority = $to_do["priority"];
                     
                     echo 
                     '<br/>
                     <div class="form_wrapper">
-
+                        
+                        <div class="task_wrapper">
+                        
                         <form id="edit" class="edit_task" method="POST">
+                        
+                        <input type="number" name="priority_' . $id . '" 
+                        value="' . $priority . '">
+                    
                         <input type="text" name="title_' . $id . '" 
                         value="' . $title . '">
-                        <br/>
+                        
                         <input type="text" name"createdBy_' . $id . '"
                         value="By ' . $createdBy . '">
+                        </div>
 
-                    </div><!--form_wrapper--->
+                    
             
                 
                 
@@ -108,7 +145,8 @@
                         <input type="submit" value="DONE">
                         </form>
 
-                    </div>'
+                    </div><!--button_wrapper-->
+                    </div><!--form_wrapper--->'
                         ;?>
 
                     <div class="clear"></div>
@@ -126,9 +164,9 @@
                              require "partials/functions/update_to_do.php"; 
      
      
-                        update_to_do($completed, $title, $createdBy, $id); 
+                        update_to_do($completed, $title, $createdBy, $id, $priority); 
                         
-                        fetch_to_do_list($completed);
+                        //fetch_to_do_list($completed);
                         
                         } //end if
                     
@@ -148,18 +186,21 @@
                     
                     
                     
-                    //Ifall användaren redigerar "title"
-                    elseif (isset($_POST["title_$id"]))
+                    //Ifall användaren redigerar "title" eller "priority"
+                    elseif (isset($_POST["title_$id"]) ||
+                           isset($_POST["priority_$id"]))
                     {
                         $title = $_POST["title_$id"];
                         $completed = 0;
                         $createdBy = $to_do["createdBy"];
                         $id = $to_do["id"];
+                        $priority = $_POST["priority"];
 
                         require "partials/functions/update_to_do.php";
 
-                        update_to_do($completed, $title, $createdBy, $id);
-                        fetch_to_do_list($completed);
+                        update_to_do($completed, $title, $createdBy, $id, $priority);
+                        
+                        //fetch_to_do_list($completed);
 
 
                     }//end elseif
@@ -246,10 +287,17 @@
             if (count($to_do_list) > 0 || count($completed_to_do) > 0)
             {
                             
-                echo '<form id="clear_list" method="POST">
+                echo '
+                <div class="button_wrapper2">
+                <form id="clear_list" method="POST">
                 <input type="hidden" name="clear">
                 <input type="submit" value="CLEAR ALL">
-                </form>';
+                </form>
+                <form id="prior_list" method="POST">
+                <input type="hidden" name="priority">
+                <input type="submit" value="SORT BY PRIORITY">
+                </form>
+                </div>';
                 
                 
                 
@@ -260,7 +308,15 @@
                     $clear_all = true;
                     clear_database($clear_all);
                     
-                }//end if
+                }
+                
+                //elseif (isset($_POST["priority"]))
+               // {
+                    //$priority = true;
+                    //require "partials/functions/sort_list.php";
+                    //add_column($priority);
+                    
+                //}//end elseif  
                 
             }//end if
                     

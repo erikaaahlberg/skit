@@ -18,8 +18,8 @@ body
 
 .span_box
 {
-    margin-top: -100px;
-    margin-left: -110px;
+    margin-top: -80px;
+    margin-left: -40px;
     z-index: 1;
     background: #317ac4;
     border-radius: 100%;
@@ -32,7 +32,7 @@ body
 
 span.do_little
 {
-  color: white;
+    color: white;
     font-size: 0.8em;
     font-family: 'Julius Sans One', sans-serif;
 }
@@ -41,19 +41,18 @@ span.do_little
 {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    width: 100%;
     margin: auto;
 }
 
 .box_add_to_do,
 .box_existing_to_do
 {
-    flex-basis: 45%;
     text-align: center;
     background-color: rgba(5, 5, 5, 0.57);
     margin: auto;
     text-align: center;
-    padding: 50px;
+    padding: 20px;
     box-sizing: border-box;
     font-family: 'Roboto Condensed', sans-serif;
     color: white;
@@ -61,14 +60,71 @@ span.do_little
     
 }
 
+.box_add_to_do
+{
+    flex-basis: 30%;
+}
+
+.box_existing_to_do
+{
+    flex-basis: 60%;
+    padding-bottom: 50px;
+}
+
+hr
+{
+    border-width: 2px;
+    color: white;
+    margin-top: 20px;
+    width: 100%;
+}
+
 .box_add_to_do h1, 
 .box_add_to_do h2,
 .box_existing_to_do h3, 
-.box_existing_to_do h4
+.box_existing_to_do h4,
+.box_existing_to_do h5,
+.box_existing_to_do li
 {
     font-family: 'Roboto Condensed', sans-serif;
     color: white;
     font-size: 1.5em;
+    text-shadow: 2px 2px 2px black;
+    
+}
+
+.box_existing_to_do h3
+{
+    font-size: 2.5em;
+}
+
+.box_existing_to_do h5,
+.box_existing_to_do li
+{
+    font-size: 1em;
+}
+
+.box_existing_to_do h5
+{
+    margin-bottom: 60px;
+}
+
+.box_existing_to_do ul
+{
+    
+    display: inline-block;
+    padding-left: 0px;
+    float: left;
+}
+
+.box_existing_to_do li
+{
+    margin-right: 20px;
+}
+
+.box_existing_to_do li.name
+{
+    margin-left: 150px;
 }
 
 form#add input[type=text]
@@ -88,7 +144,8 @@ form#complete input[type=submit],
 form#clear_list input[type=submit],
 form#add input[type=submit],
 #edit_button[type=submit],
-form.remove_task input[type=submit]
+form.remove_task input[type=submit],
+form#prior_list input[type=submit]
 {
     background: black;
     color: white;
@@ -101,7 +158,8 @@ form.remove_task input[type=submit]
     width: 50px;
     margin: auto;
     box-sizing: border-box;
-    text-shadow: 2px 2px 2px black
+    text-shadow: 2px 2px 2px black;
+    display: inline-block;
 }
 
 form#complete input[type=submit],
@@ -124,16 +182,37 @@ form.remove_task input[type=submit]
 
 .form_wrapper
 {
-    width: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-form.edit_task input[type=text]
+.task_wrapper
 {
-    float: left;
-    width: 100%;
+    flex-basis: 70%;
+}
+
+.button_wrapper
+{
+    flex-basis: 30%;
+}
+
+form.edit_task input[type=text],
+form.edit_task input[type=number]
+{
+    
+    width: 42%;
     font-size: 1.1em;
     background: rgba(5, 5, 5, 0);
     border: none;
+    padding-left: 10px;
+}
+
+form.edit_task input[type=number]
+{
+    width: 10%;
+    font-size: 1.5em;
 }
 
 form.remove_task input[type=submit]
@@ -153,11 +232,26 @@ form#add input[type=submit]
     margin-top: 20px;
 }
 
-form#clear_list input[type=submit]
+.button_wrapper2
+{
+    margin: auto;
+    width: 200px;
+    margin-top: 30px;
+}
+
+form#clear_list input[type=submit],
+form#prior_list input[type=submit]
 {
     background: red;
     margin-top: 20px;
-    width: 120px;
+    width: 90px;
+    float: left;
+}
+
+form#prior_list input[type=submit]
+{
+    background: #317ac4;
+    width: 110px;
 }
 
 .box_existing_to_do li
