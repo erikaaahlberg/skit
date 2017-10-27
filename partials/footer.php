@@ -2,7 +2,7 @@
         <nav>
             <div class="footer_link">
                 <li>
-                    <a href="#">Github länk</a>
+                    <a href="https://github.com/erikaaahlberg">ERIKA @ github</a>
                 </li>
             </div><!--.footer_link-->
             <div class="footer_link">
