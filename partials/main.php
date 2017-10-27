@@ -16,7 +16,7 @@
 
             <h1>ENTER YOUR NAME</h1>
 
-            <form id="add" method="POST">
+            <form id="add" action="index.php" method="POST">
 
                 <input type="text" name="createdBy">
 
@@ -41,6 +41,8 @@
             $title = "";
             $createdBy = "";
             $id = "";
+            $add_priority = false;
+            $sort_list = false;
             
             
             require "partials/functions/fetch_to_do_list.php";
@@ -55,19 +57,19 @@
                 require "partials/functions/check_if_dublette.php";
                 $is_dublette = check_if_dublette($to_do_list, $title);
                 
-                if ($is_dublette == false)
+                if (!$is_dublette)
                 {
                 require "partials/functions/insert_to_do_list.php";
                     
                 insert_to_do_list($title, $completed, $createdBy);
-                    
-                echo '<br/>Your task was successfully added';
+                $to_do_list = fetch_to_do_list($completed);
                     
                 }
                 
                 else
                 {
-                    echo '<br/>That\'ve already been added!';
+                    echo '<br/><p class="error_message">
+                    That\'ve already been added!</p>';
                 }
                 
             }
@@ -79,47 +81,102 @@
 
         <div class="box_existing_to_do">
 
-            <h3>YOUR TO DO LIST</h3>
+            
 
                 <?php
             
-                if (count($to_do_list > 0))
+                
+                if (count($to_do_list) > 0)
                 {
-                    echo '<h5>(Click on the task to edit)</h5>
-                    <ul>
-                    <li class="priority">Priority</li>
-                    <li class="task">TASK</li>
+                    echo '<h3>YOUR TO DO LIST</h3>
+                    <h5>(Click on the task to edit)</h5>
+                    <ul>';
+                    
+                    //Kollar ifall användaren vill visa priority
+                    if (isset($_GET["add_priority"]))
+                    {
+                        $add_priority = true;
+                         
+                    }//end if
+                    
+                    
+                    //Kollar ifall priority är valt eller satt och visar endast ifall det är valt
+                    for ($i = 0; $i < count($to_do_list); $i++)
+                    {
+                        if($to_do_list[$i]["priority"] > 0)
+                        {
+                           $add_priority = true; 
+                        }
+                    }//end for
+                    
+                    if ($add_priority)
+                    {
+                        echo '<li class="priority">
+                        Priority
+                        </li>';  
+                    }
+                    
+                 
+                    
+                    echo 
+                    '<li class="task">TASK</li>
                     <li class="name">NAME</li>
+                    
+                    <li class="add_priority_button">
+                    <form action="index.php"
+                    method="GET"
+                    class="add_priority">
+                    <input type="hidden"
+                    name="add_priority"
+                    value="1">
+                    <input type="submit"
+                    value="ADD PRIORITY">
+                    </form>
+                    </li>
                     </ul>
                     <br/>
                     <hr/>';
-                }
+                    
+
+                
             
                 foreach ($to_do_list as $to_do)
                 {
-                    
                     $title = $to_do["title"];
                     $createdBy = $to_do["createdBy"];
                     $id = $to_do["id"];
                     $priority = $to_do["priority"];
                     
-                    echo 
+                    echo $id .
                     '<br/>
                     <div class="form_wrapper">
                         
                         <div class="task_wrapper">
                         
-                        <form id="edit" class="edit_task" method="POST">
+                        <form id="edit"
+                        action="index.php"
+                        class="edit_task" 
+                        method="POST">';
                         
-                        <input type="number" name="priority_' . $id . '" 
-                        value="' . $priority . '">
                     
-                        <input type="text" name="title_' . $id . '" 
+                        //Kollar ifall priority är valt och visas då isåfall
+                        if ($add_priority || $priority > 0)
+                        {    
+                        echo '<input type="number" 
+                        name="priority_' . $id . '"
+                        form="edit"
+                        value="' . $priority . '">';
+                        }
+                    
+                        echo '<input type="text" 
+                        name="title_' . $id . '" 
                         value="' . $title . '">
                         
-                        <input type="text" name"createdBy_' . $id . '"
-                        value="By ' . $createdBy . '">
-                        </div>
+                        <input type="text" 
+                        name="createdBy_' . $id . '"
+                        value="' . $createdBy . '">
+                        
+                     </div><!--form_wrapper-->
 
                     
             
@@ -128,21 +185,35 @@
                     <!--Knappar för redigering av listan-->    
                     <div class="button_wrapper">
 
-                        <input type="submit" class="edit_task" id="edit_button" form="edit" value="EDIT">
+                        <input type="submit" 
+                        class="edit_task" 
+                        id="edit_button" 
+                        form="edit" 
+                        value="EDIT">
 
                         </form><!--Form id="edit"--> 
                
-                        <form class="remove_task" method="POST">
+                        <form class="remove_task" 
+                        action="index.php"
+                        method="POST">
+                        
                         <input type="hidden" 
                         name="remove_' . $id . '"> 
-                        <input type="submit" value="REMOVE">
+                        
+                        <input type="submit" 
+                        value="REMOVE">
                         </form> 
 
 
-                        <form id="complete" method="POST">
+                        <form id="complete" 
+                        action="index.php"
+                        method="POST">
+                        
                         <input type="hidden" 
-                        name="completed_' . $id . '"> 
-                        <input type="submit" value="DONE">
+                        name="completed_' . $id . '">
+                        
+                        <input type="submit" 
+                        value="DONE">
                         </form>
 
                     </div><!--button_wrapper-->
@@ -154,19 +225,18 @@
                     <?php
                     
                     
+                    
+                    
                     //Ifall användaren trycker på "DONE"
                     if (isset($_POST["completed_$id"])) 
                         { 
                               $completed = 1;
-                              $title = $to_do["title"];
-                              $createdBy = $to_do["createdBy"];
 
                              require "partials/functions/update_to_do.php"; 
      
      
                         update_to_do($completed, $title, $createdBy, $id, $priority); 
-                        
-                        //fetch_to_do_list($completed);
+                     
                         
                         } //end if
                     
@@ -179,54 +249,41 @@
                         require "partials/functions/clear_single_task.php";
 
                         clear_single_task($id);
-                        fetch_to_do_list($completed);
+                        
 
                     }//end elseif
                     
                     
                     
                     
-                    //Ifall användaren redigerar "title" eller "priority"
+                    //Ifall användaren redigerar "title"
                     elseif (isset($_POST["title_$id"]) ||
                            isset($_POST["priority_$id"]))
                     {
-                        $title = $_POST["title_$id"];
-                        $completed = 0;
-                        $createdBy = $to_do["createdBy"];
-                        $id = $to_do["id"];
-                        $priority = $_POST["priority"];
+                            $title = $_POST["title_$id"]; 
+                            $priority = $_POST["priority_$id"];
+                            $id = $to_do["id"];
 
-                        require "partials/functions/update_to_do.php";
-
-                        update_to_do($completed, $title, $createdBy, $id, $priority);
-                        
-                        //fetch_to_do_list($completed);
-
-
-                    }//end elseif
-     
-                    
-                    
-                    
-                    //Ifall användaren redigerar "createdBy"
-                    elseif (isset($_POST["createdBy_$id"]))
-                    {
-                        $createdBy = $_POST["createdBy_$id"];
-                        $completed = 0;
-                        $title = $to_do["title"];
-                        $id = $to_do["id"];
 
                             require "partials/functions/update_to_do.php";
+                            update_to_do($completed, $title, $createdBy, $id, $priority);
 
-                        update_to_do($completed, $title, $createdBy, $id);
-                        fetch_to_do_list($completed);
+                            
+                        
 
                     }//end elseif
+
+
+                    }//end if
                  }//end foreach
             
+            else {
+                echo '<p class="empty_list">
+                YOUR TO\'DO LIST IS EMPTY!
+                </p>';
+            }
             
-            
-             
+         
             
             //Hämtar listan på färdiga to_do's, därav completed = 1
             $completed = 1;
@@ -294,7 +351,7 @@
                 <input type="submit" value="CLEAR ALL">
                 </form>
                 <form id="prior_list" method="POST">
-                <input type="hidden" name="priority">
+                <input type="hidden" name="sort_list">
                 <input type="submit" value="SORT BY PRIORITY">
                 </form>
                 </div>';
@@ -310,13 +367,13 @@
                     
                 }
                 
-                //elseif (isset($_POST["priority"]))
-               // {
-                    //$priority = true;
-                    //require "partials/functions/sort_list.php";
-                    //add_column($priority);
+                elseif (isset($_POST["sort_list"]))
+                {
+                    $sort_list = true;
+                    require "partials/functions/sort_list.php";
+                    $to_do_list = sort_list($sort_list);
                     
-                //}//end elseif  
+                }//end elseif  
                 
             }//end if
                     

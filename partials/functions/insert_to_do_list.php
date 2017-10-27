@@ -16,10 +16,9 @@ function insert_to_do_list ($title, $completed, $createdBy)
                 ":createdBy" => $createdBy)); 
     
        
-            echo '<br/>Your task was successfully added';
-            header("Location: index.php");
-    
-    
+            echo '<br/><p class="succes_message">
+            Your task was successfully added</p>';
+ 
 }
 
 

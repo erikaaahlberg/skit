@@ -13,16 +13,18 @@ function update_to_do ($completed, $title, $createdBy, $id, $priority)
      title = :title,
      createdBy = :createdBy,
      priority = :priority
-     WHERE id = $id"
+     WHERE id = :id"
     );
     
     $my_sql->execute(array(
         ":completed" => $completed,
         ":title"    => $title,
         ":createdBy" => $createdBy,
-        ":priority" => $priority
+        ":priority" => $priority,
+        ":id" => $id
     
     ));
+    
     
     header("Location: index.php");
                  

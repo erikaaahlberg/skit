@@ -13,7 +13,8 @@ function fetch_to_do_list ($int)
         ":id" => "id",
         ":title" => "title",
         ":completed" => "completed",
-        ":createdBy" => "createdBy"
+        ":createdBy" => "createdBy",
+        ":priority" => "priority"
     ));
 
     $to_do_list = $statement->fetchAll(PDO::FETCH_ASSOC);

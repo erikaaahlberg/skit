@@ -84,13 +84,19 @@ hr
 .box_existing_to_do h3, 
 .box_existing_to_do h4,
 .box_existing_to_do h5,
-.box_existing_to_do li
+.box_existing_to_do li,
+p.empty_list
 {
     font-family: 'Roboto Condensed', sans-serif;
     color: white;
     font-size: 1.5em;
     text-shadow: 2px 2px 2px black;
     
+}
+
+p.empty_list
+{
+    padding-top: 40px;
 }
 
 .box_existing_to_do h3
@@ -117,14 +123,22 @@ hr
     float: left;
 }
 
-.box_existing_to_do li
+li.task,
+li.name,
+li.priority
 {
     margin-right: 20px;
 }
 
-.box_existing_to_do li.name
+li.name
 {
-    margin-left: 150px;
+    margin-left: 145px;
+}
+
+li.add_priority_button
+{
+    position: absolute;
+    right: 50px;
 }
 
 form#add input[type=text]
@@ -145,7 +159,8 @@ form#clear_list input[type=submit],
 form#add input[type=submit],
 #edit_button[type=submit],
 form.remove_task input[type=submit],
-form#prior_list input[type=submit]
+form#prior_list input[type=submit],
+form.add_priority input[type=submit]
 {
     background: black;
     color: white;
@@ -160,6 +175,11 @@ form#prior_list input[type=submit]
     box-sizing: border-box;
     text-shadow: 2px 2px 2px black;
     display: inline-block;
+}
+
+form.add_priority input[type=submit]
+{
+    width: 105px;
 }
 
 form#complete input[type=submit],
@@ -206,13 +226,14 @@ form.edit_task input[type=number]
     font-size: 1.1em;
     background: rgba(5, 5, 5, 0);
     border: none;
-    padding-left: 10px;
+    float: left;
 }
 
 form.edit_task input[type=number]
 {
     width: 10%;
-    font-size: 1.5em;
+    margin-right: 25px;
+    text-align: center;
 }
 
 form.remove_task input[type=submit]
