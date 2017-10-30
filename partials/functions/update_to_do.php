@@ -8,7 +8,7 @@ function update_to_do ($completed, $title, $createdBy, $id, $priority)
 
     $my_sql = $pdo->prepare(
     
-    "UPDATE to_do 
+     "UPDATE to_do 
      SET completed = :completed,
      title = :title,
      createdBy = :createdBy,

@@ -127,7 +127,7 @@ li.task,
 li.name,
 li.priority
 {
-    margin-right: 20px;
+    margin-right: 45px;
 }
 
 li.name
@@ -154,13 +154,7 @@ form#add input[type=text]
     box-shadow: 2px 2px 5px #191919;
 }
 
-form#complete input[type=submit],
-form#clear_list input[type=submit],
-form#add input[type=submit],
-#edit_button[type=submit],
-form.remove_task input[type=submit],
-form#prior_list input[type=submit],
-form.add_priority input[type=submit]
+form input[type=submit]
 {
     background: black;
     color: white;
@@ -182,20 +176,13 @@ form.add_priority input[type=submit]
     width: 105px;
 }
 
-form#complete input[type=submit],
-#edit_button[type=submit],
-form.remove_task input[type=submit]
+.form_wrapper form input[type=submit]
 {
     float: right;
+    margin-right: 0px;
 }
 
-.form_wrapper
-{
-    float: left;
-}
-
-
-#edit_button[type=submit]
+form#edit input[type=submit]
 {
    background: #317ac4;
 }
@@ -203,26 +190,13 @@ form.remove_task input[type=submit]
 .form_wrapper
 {
     width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.task_wrapper
-{
-    flex-basis: 70%;
-}
-
-.button_wrapper
-{
-    flex-basis: 30%;
 }
 
 form.edit_task input[type=text],
 form.edit_task input[type=number]
 {
     
-    width: 42%;
+    width: 30%;
     font-size: 1.1em;
     background: rgba(5, 5, 5, 0);
     border: none;
@@ -236,7 +210,7 @@ form.edit_task input[type=number]
     text-align: center;
 }
 
-form.remove_task input[type=submit]
+form#remove_task input[type=submit]
 {
     background: red;
     width: 60px;

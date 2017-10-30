@@ -7,8 +7,7 @@ function sort_list($boolean)
 
         $statement = $pdo->prepare(
           "SELECT * FROM to_do
-          ORDER BY priority ASC
-          WHERE completed = 0"
+          ORDER BY priority ASC"
         );
 
         $statement->execute(array(

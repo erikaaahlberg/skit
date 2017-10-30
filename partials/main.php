@@ -45,8 +45,22 @@
             $sort_list = false;
             
             
+            
+            //Hämtar info från databasen
             require "partials/functions/fetch_to_do_list.php";
             $to_do_list = fetch_to_do_list($completed);
+            
+            
+            
+            //Ifall sort by priority är valt så sorteras listan med denna funktion
+                if (isset($_POST["sort_list"]))
+                {
+                    $sort_list = true;
+                    
+                    require "partials/functions/sort_list.php";
+                    $to_do_list = sort_list($sort_list);
+                    
+                }//end if
             
             
             if (isset($_POST["createdBy"]) && isset($_POST["title"]))
@@ -100,7 +114,7 @@
                     }//end if
                     
                     
-                    //Kollar ifall priority är valt eller satt och visar endast ifall det är valt
+                    //Kollar ifall priority är ifyllt sen innan och visar endast ifall det är valt
                     for ($i = 0; $i < count($to_do_list); $i++)
                     {
                         if($to_do_list[$i]["priority"] > 0)
@@ -138,8 +152,6 @@
                     <hr/>';
                     
 
-                
-            
                 foreach ($to_do_list as $to_do)
                 {
                     $title = $to_do["title"];
@@ -147,26 +159,20 @@
                     $id = $to_do["id"];
                     $priority = $to_do["priority"];
                     
-                    echo $id .
-                    '<br/>
-                    <div class="form_wrapper">
+                    echo '<br/><div class="form_wrapper">
                         
-                        <div class="task_wrapper">
                         
                         <form id="edit"
                         action="index.php"
                         class="edit_task" 
                         method="POST">';
-                        
-                    
-                        //Kollar ifall priority är valt och visas då isåfall
-                        if ($add_priority || $priority > 0)
-                        {    
-                        echo '<input type="number" 
+                          
+                     if ($add_priority)
+                     {
+                         echo '<input type="number" 
                         name="priority_' . $id . '"
-                        form="edit"
                         value="' . $priority . '">';
-                        }
+                      }
                     
                         echo '<input type="text" 
                         name="title_' . $id . '" 
@@ -175,25 +181,17 @@
                         <input type="text" 
                         name="createdBy_' . $id . '"
                         value="' . $createdBy . '">
-                        
-                     </div><!--form_wrapper-->
-
-                    
-            
-                
-                
-                    <!--Knappar för redigering av listan-->    
-                    <div class="button_wrapper">
-
+                       
                         <input type="submit" 
-                        class="edit_task" 
-                        id="edit_button" 
-                        form="edit" 
                         value="EDIT">
+                       
+                        </form><!--Form id="edit"-->
+                     
 
-                        </form><!--Form id="edit"--> 
-               
-                        <form class="remove_task" 
+                
+                    <!--Knappar för redigering av listan-->  
+                    
+                        <form id="remove_task" 
                         action="index.php"
                         method="POST">
                         
@@ -216,16 +214,13 @@
                         value="DONE">
                         </form>
 
-                    </div><!--button_wrapper-->
+                    
                     </div><!--form_wrapper--->'
                         ;?>
 
                     <div class="clear"></div>
 
                     <?php
-                    
-                    
-                    
                     
                     //Ifall användaren trycker på "DONE"
                     if (isset($_POST["completed_$id"])) 
@@ -244,6 +239,7 @@
                     
                     
                     //Ifall användaren trycker på "REMOVE"
+                    
                     elseif (isset($_POST["remove_$id"]))
                     {
                         require "partials/functions/clear_single_task.php";
@@ -256,24 +252,21 @@
                     
                     
                     
-                    //Ifall användaren redigerar "title"
+                    //Ifall användaren redigerar "title"/"priority" eller "createdby"
                     elseif (isset($_POST["title_$id"]) ||
-                           isset($_POST["priority_$id"]))
-                    {
+                           isset($_POST["priority_$id"]) ||
+                           isset($_POST["createdBy_$id"]))
+                    { 
                             $title = $_POST["title_$id"]; 
                             $priority = $_POST["priority_$id"];
-                            $id = $to_do["id"];
+                            $createdBy = $_POST["createdBy_$id"];
 
 
                             require "partials/functions/update_to_do.php";
-                            update_to_do($completed, $title, $createdBy, $id, $priority);
-
-                            
-                        
-
+                            update_to_do($completed, $title, $createdBy, $id, $priority); 
+                       
                     }//end elseif
-
-
+                    
                     }//end if
                  }//end foreach
             
@@ -328,10 +321,10 @@
                 require "partials/functions/clear_single_task.php";
                 clear_single_task($id);
                 fetch_to_do_list($completed);
-                
-            }// end if
-        }//end foreach
-    }//end if ?>
+
+                    }// end if
+                }//end foreach
+            }//end if ?>
                     
 
                     <div class="clear"></div>
@@ -346,14 +339,22 @@
                             
                 echo '
                 <div class="button_wrapper2">
-                <form id="clear_list" method="POST">
-                <input type="hidden" name="clear">
-                <input type="submit" value="CLEAR ALL">
-                </form>
-                <form id="prior_list" method="POST">
-                <input type="hidden" name="sort_list">
-                <input type="submit" value="SORT BY PRIORITY">
-                </form>
+                
+                    <form id="clear_list" 
+                    method="POST">
+                    <input type="hidden" 
+                    name="clear">
+                    <input type="submit" 
+                    value="CLEAR ALL">
+                    </form>
+                    
+                    <form id="prior_list" 
+                    method="POST">
+                    <input type="hidden" 
+                    name="sort_list">
+                    <input type="submit" 
+                    value="SORT BY PRIORITY">
+                    </form>
                 </div>';
                 
                 
@@ -365,17 +366,9 @@
                     $clear_all = true;
                     clear_database($clear_all);
                     
-                }
+                }//end if
                 
-                elseif (isset($_POST["sort_list"]))
-                {
-                    $sort_list = true;
-                    require "partials/functions/sort_list.php";
-                    $to_do_list = sort_list($sort_list);
-                    
-                }//end elseif  
-                
-            }//end if
+                }//end if
                     
         
             ?>
